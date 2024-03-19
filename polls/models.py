@@ -1,6 +1,4 @@
 from django.db import models
-
-<<<<<<< HEAD
 class question(models.Model):
     question_text = models.CharField(max_length=300)
     publication_date = models.DateField("data published")
