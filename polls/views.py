@@ -5,17 +5,20 @@ from django.template import loader
 from django.shortcuts import render,get_object_or_404
 from django.urls import reverse
 from django.views import generic
+from django.utils import timezone
 
 class IndexView(generic.ListView):
       template_name="polls/index.html"
       context_object_name="questions_sorted_as_latest"
 
       def get_queryset(self):
-          return question.objects.order_by('publication_date')[:5]
+          return question.objects.filter(publication_date__lte=timezone.now()).order_by('publication_date')[:5]
 
 class DetailView(generic.DetailView):
     model=question
     template_name="polls/details.html"
+    def get_queryset(self):
+          return question.objects.filter(publication_date__lte=timezone.now())
 
 class ResultView(generic.DetailView):
     model=question
