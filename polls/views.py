@@ -14,11 +14,24 @@ class IndexView(generic.ListView):
       def get_queryset(self):
           return question.objects.filter(publication_date__lte=timezone.now()).order_by('publication_date')[:5]
 
+
 class DetailView(generic.DetailView):
-    model=question
-    template_name="polls/details.html"
+    model = question
+    template_name = "polls/details.html"
+
     def get_queryset(self):
-          return question.objects.filter(publication_date__lte=timezone.now())
+        return question.objects.filter(publication_date__lte=timezone.now())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = self.get_object()
+        context['was_published_recently'] = question.was_published_recently()
+        return context
+# class DetailView(generic.DetailView):
+#     model=question
+#     template_name="polls/details.html"
+#     def get_queryset(self):
+#           return question.objects.filter(publication_date__lte=timezone.now())
 
 class ResultView(generic.DetailView):
     model=question
