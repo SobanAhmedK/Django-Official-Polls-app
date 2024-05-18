@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Polls App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{%static 'Polls/style.css'%}" rel="stylesheet">
+</head>
+<style>
+  /* Define custom CSS styles for the navbar-brand */
+  a.navbar-brand {
+      color: #0d6efd;
+      font-weight: bold;
+  }
+
+  a.nav-link {
+  margin-right: 20px; 
+  }
+</style>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid"> <!-- Remove justify-content-center class from here -->
+      <a class="navbar-brand" href="{% url 'polls:index' %}">POLLS</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup"> <!-- Add justify-content-center class here -->
+        <div class="navbar-nav"> <!-- Remove ml-auto class from here -->
+          <a class="nav-link fs-5 active ml-20px" aria-current="page" href="{%url 'polls:index'%}">Home</a>
+          <a class="nav-link fs-5 mr-33" href="">Create</a>
+          <a class="nav-link fs-5" href="{% url 'polls:about'%}">About</a>
+          <a class="nav-link fs-5 " href="{% url 'polls:contact'%}">Contact Us</a>
+    
+        </div>
+      </div>
+    </div>
+  </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="text-center mb-4" style='color:blue'>About Us</h1>
+                <p>This is the About Us page for the Polls app. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut lectus ultricies, suscipit dolor eu, feugiat quam. Vivamus vel felis sit amet est fermentum condimentum. Ut pretium augue id eros ultrices fermentum.</p>
+                <p>Nunc scelerisque, nisl at fermentum luctus, metus risus vestibulum magna, id blandit libero ex ac ante. Aliquam pharetra eu nulla nec ultricies. In hac habitasse platea dictumst. Proin ac risus feugiat, viverra dui nec, efficitur lectus. Integer sagittis sapien justo, a dignissim velit egestas ac. Proin suscipit sem et suscipit blandit. Donec venenatis sem sit amet volutpat dapibus.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

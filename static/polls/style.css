@@ -1,0 +1,324 @@
+
+
+    * {
+        margin: 0;
+        padding: 0;
+    
+    }
+    
+    /* CSS Variable */
+    
+    :root {
+        --navbar_height: 59px;
+    }
+    
+    
+    body {
+        background-color: white;
+    
+    }
+    
+    
+    #navbar {
+        font-family: tektur;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    
+    .nav_fix img {
+        width: 121px;
+        height: 95px;
+        margin: -5px -15px;
+    }
+    
+    
+    @keyframes example {
+    
+        0%,
+        30% {
+            width: 50px;
+        }
+    
+        75% {
+            font-size: 20px;
+        }
+    
+        100% {
+            font-size: 24px;
+            /* End size */
+            opacity: 1;
+            /* End opacity */
+        }
+    }
+    
+    /* Apply the animation to the text */
+    .animated-text {
+        animation-name: example;
+        animation-duration: 4s;
+        /* Duration of the animation */
+        animation-timing-function: ease;
+        /* Timing function (e.g., ease, linear, ease-in-out) */
+    }
+    
+    
+    
+    #logo {
+        margin: 1px 12px;
+    
+    }
+    
+    #logo img {
+        width: 121px;
+        height: 95px;
+        margin: -10px -15px;
+    }
+    
+    #navbar ul {
+        display: flex;
+        margin-top: 30px;
+        margin-left: 15px;
+    
+    }
+    
+    
+    
+    #navbar ul li {
+        list-style: none;
+        font-size: 1rem;
+    
+    }
+    
+    #navbar ul li a {
+    
+        display: block;
+        color: white;
+    
+        padding: 0px 46px;
+        border-radius: 20px;
+        text-decoration: none;
+    
+    }
+    
+    #navbar ul li a:hover {
+        /* color: black;
+        background-color:white ; */
+        font-size: 1.3rem;
+    }
+    
+    #navbar::before {
+        content: "";
+        background-color: black;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    
+    
+    }
+    
+    #home::before {
+        content: "";
+        background: url(../bg1.jpg);
+        position: absolute;
+        height: 125%;
+        width: 100%;
+        z-index: -1;
+    
+    }
+    
+    #home {
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        color: white;
+        height: 300px;
+    
+    }
+    
+    
+    .primary {
+        font-size: 3rem;
+        padding: 12px;
+        margin-top: 156px;
+        font-family: tektur;
+    
+    }
+    
+    
+    
+    #home p {
+        font-size: 1rem;
+        text-align: center;
+    
+    }
+    
+    #home h1 {
+        margin-top: 22px;
+    }
+    
+    .btn {
+        padding: 6px 20px;
+        background-color: red;
+        border-radius: 18px;
+        font-size: 1rem;
+        color: white;
+        margin-top: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 62px;
+        margin-bottom: 0px;
+        font-family: tektur;
+        text-decoration: none;
+    }
+    
+    
+    .btn:hover {
+        background-color: rgb(190, 85, 85);
+        color: black;
+    }
+    
+    #services {
+        margin-top: 53px;
+        display: flex;
+    }
+    
+    .box {
+        border: 3px solid brown;
+        text-align: center;
+        background-color: black;
+        color: white;
+        height: 305px;
+        width: 514px;
+        padding: 8px 8px;
+        border-radius: 22px;
+        margin: 12px 44px;
+        margin-bottom: 28px;
+    }
+    
+    .box img {
+        display: block;
+        margin: auto;
+        height: 121px;
+        margin-bottom: 15px;
+    }
+    
+    .box p {
+        font-size: 1rem;
+    }
+    
+    
+    .p_heading {
+        margin: 13px 10px;
+        color: white;
+        font-family: tektur;
+        text-align: center;
+        font-size: 1.7rem;
+    }
+    
+    .headings {
+        margin-top: 70px;
+        font-size: 2.5rem;
+    }
+    
+    
+    
+    #client_section h1 {
+        display: flex;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #client_section {
+        background-color: rgb(29, 27, 27);
+        border-radius: -16px;
+        height: 290px;
+        margin-top: 70px;
+        border-top: 2px solid white;
+        border-bottom: 2px solid white;
+    }
+    
+    .client-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .client-item img {
+        height: 95px;
+        width: 140px;
+        padding: 119px 74px;
+    }
+    
+    .client-item img:hover {
+        opacity: 0.5;
+    }
+    
+    #contact-section {
+        position: relative;
+    }
+    
+    #contact-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 34px;
+    }
+    
+    #contact-box input,
+    #contact-box textarea {
+        width: 96%;
+        padding: 0.5rem;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        margin-top: 17px;
+    
+    }
+    
+    #contact-box form {
+        width: 40%;
+    }
+    
+    #contact-box label {
+        font-size: 1.3rem;
+        font-family: tektur;
+        color: white;
+    }
+    
+    .footer {
+        text-align: center;
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        font-size: 1.1rem;
+        padding: 15px 15px;
+        margin-top: 180px;
+    }
+    
+    #contact-section {
+        padding-top: 12px;
+    }
+    
+    #contact-box button {
+    
+        width: 100%;
+    }
+
+    h1.p_heading{
+        color:blue;
+    }
+    
+    a.navbar-brand {
+        color: #0d6efd;
+        font-weight: bold;
+    }
+
+    a.nav-link {
+    margin-right: 20px; 
+    }
