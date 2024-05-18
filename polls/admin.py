@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import question,choice
+from .models import question,choice,ContactMessage
 
 class ChoiceInline(admin.TabularInline):  #can be admin.StackInLine
     
@@ -14,3 +14,4 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields=["question_text"]
 admin.site.register(question,QuestionAdmin)
 admin.site.register(choice)
+admin.site.register(ContactMessage)

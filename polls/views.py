@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import question,choice
+from .models import question,choice , ContactMessage
 from django.http import HttpResponse,HttpRequest,Http404,HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render,get_object_or_404
@@ -49,17 +49,8 @@ def vote(request:HttpRequest, question_id:int):
     return HttpResponseRedirect(reverse("polls:result", args=(Question.id,)))
 
 
-def contact(request:HttpRequest):
-    return render(request , "polls/contact.html")
-
-
-
 def about(request:HttpRequest):
     return render(request , "polls/about.html")
-
-
-def contact(request:HttpRequest):
-    return render(request , "polls/contact.html")
 
 class CreateView(View):
     def get(self, request: HttpRequest):
@@ -74,13 +65,12 @@ class CreateView(View):
                 'error_message': 'You must enter a question and at least one choice.',
             })
         
-        # Create the new question
         Question = question.objects.create(
             question_text=question_text,
             publication_date=timezone.now()
         )
         
-        # Create the choices related to this question
+       
         for choice_text in choice_texts:
             if choice_text.strip():  
                 choice.objects.create(
@@ -91,4 +81,32 @@ class CreateView(View):
         return redirect('polls:index')
 
 
+def contact(request:HttpRequest):
+    error_message = None
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        contact = request.POST.get('contact')
+        age = request.POST.get('age')
+        message = request.POST.get('message')
 
+        try:
+            age = int(age)
+        except ValueError:
+            error_message = 'Please enter a valid age.'
+            return render(request, 'polls/contact.html', {'error_message': error_message})
+
+        if not (name and email and message):
+            error_message = 'Please fill in all required fields.'
+        else:
+            ContactMessage.objects.create(
+                name=name,
+                email=email,
+                contact=contact,
+                age=age,
+                message=message
+            )
+            return HttpResponse('/thank-you/')
+
+    return render(request, 'polls/contact.html', {'error_message': error_message})

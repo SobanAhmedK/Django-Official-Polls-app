@@ -26,4 +26,12 @@ class choice(models.Model):
     question = models.ForeignKey(to=question, on_delete = models.CASCADE)
     text_choice = models.CharField(max_length = 200)
     votes=models.IntegerField(default=0)
+    
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    contact = models.CharField(max_length=20)
+    age = models.PositiveIntegerField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
