@@ -12,7 +12,7 @@ class IndexView(generic.ListView):
       context_object_name="questions_sorted_as_latest"
 
       def get_queryset(self):
-          return question.objects.filter(publication_date__lte=timezone.now()).order_by('publication_date')[:5]
+          return question.objects.filter(publication_date__lte=timezone.now()).order_by('publication_date')[:10]
 
 
 class DetailView(generic.DetailView):
@@ -81,8 +81,10 @@ class CreateView(View):
         return redirect('polls:index')
 
 
-def contact(request:HttpRequest):
+
+def contact(request):
     error_message = None
+    success_message = None
     
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -107,6 +109,7 @@ def contact(request:HttpRequest):
                 age=age,
                 message=message
             )
-            return HttpResponse('/thank-you/')
+            success_message = 'Thank you for your response!'
 
-    return render(request, 'polls/contact.html', {'error_message': error_message})
+    return render(request, 'polls/contact.html', {'error_message': error_message, 'success_message': success_message})
+

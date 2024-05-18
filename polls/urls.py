@@ -10,4 +10,5 @@ urlpatterns = [
     path("contact/", views.contact , name="contact"),
     path("about/", views.about , name="about"),
     path('create/', views.CreateView.as_view(), name='create')
+   
 ]
