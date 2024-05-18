@@ -112,4 +112,9 @@ def contact(request):
             success_message = 'Thank you for your response!'
 
     return render(request, 'polls/contact.html', {'error_message': error_message, 'success_message': success_message})
-
+def search(request):
+        query = request.GET.get('q')
+        results = []
+        if query:
+            results = question.objects.filter(question_text__icontains=query)
+        return render(request, 'polls/search_results.html', {'results': results, 'query': query})

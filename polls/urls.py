@@ -9,6 +9,7 @@ urlpatterns = [
     path("<int:question_id>/vote" , views.vote , name="vote"),
     path("contact/", views.contact , name="contact"),
     path("about/", views.about , name="about"),
-    path('create/', views.CreateView.as_view(), name='create')
+    path('create/', views.CreateView.as_view(), name='create'),
+    path('search/', views.search, name='search')
    
 ]
