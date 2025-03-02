@@ -3,7 +3,7 @@
 Welcome to the Polls web application! This project allows users to create, view, and vote on polls. It's built using Django, a high-level Python web framework, and leverages Django templating engine with Bootstrap for the frontend.
 
 ## Features
-
+- **user authentication and Authorizartion:** Users are registered and authorized.
 - **Poll Creation:** Users can create new polls with multiple-choice questions.
 - **Poll Viewing:** Users can view existing polls along with their choices and vote on them.
 - **Poll Results:** Results of the polls are displayed after users have voted.
