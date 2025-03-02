@@ -8,6 +8,7 @@ Welcome to the Polls web application! This project allows users to create, view,
 - **Poll Viewing:** Users can view existing polls along with their choices and vote on them.
 - **Poll Results:** Results of the polls are displayed after users have voted.
 - **Contact Form:** Provides a contact form for users to send messages, including their name, email, contact number, age, and message.
+- **Search:** User can search for a specific poll.
 
 ## Technologies Used
 
