@@ -22,10 +22,16 @@ class question(models.Model):
         time_now = timezone.now().date()  # Convert to datetime.date object
         return time_now - timedelta(days=1) <= self.publication_date <= time_now
 
+from django.contrib.auth.models import User
+
 class choice(models.Model):
-    question = models.ForeignKey(to=question, on_delete = models.CASCADE)
-    text_choice = models.CharField(max_length = 200)
-    votes=models.IntegerField(default=0)
+    question = models.ForeignKey(question, on_delete=models.CASCADE)
+    text_choice = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+    voters = models.ManyToManyField(User, blank=True)  # Track users who voted for this choice
+
+    def __str__(self):
+        return self.text_choice
     
 class ContactMessage(models.Model):
     name = models.CharField(max_length=100)

@@ -6,15 +6,31 @@ from django.shortcuts import render,get_object_or_404
 from django.urls import reverse
 from django.views import generic,View
 from django.utils import timezone
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.paginator import Paginator
 
 class IndexView(generic.ListView):
-      template_name="polls/index.html"
-      context_object_name="questions_sorted_as_latest"
+    template_name = "polls/index.html"
+    context_object_name = "questions_sorted_as_latest"
+    paginate_by = 3  
 
-      def get_queryset(self):
-          return question.objects.filter(publication_date__lte=timezone.now()).order_by('publication_date')[:10]
+    def get_queryset(self):
+        return question.objects.filter(publication_date__lte=timezone.now()).order_by('-publication_date')
 
-
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('polls:login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'polls/register.html', {'form': form})
 class DetailView(generic.DetailView):
     model = question
     template_name = "polls/details.html"
@@ -36,22 +52,45 @@ class DetailView(generic.DetailView):
 class ResultView(generic.DetailView):
     model=question
     template_name="polls/results.html"
-          
-def vote(request:HttpRequest, question_id:int):
-    Question:question=get_object_or_404(question,pk=question_id)
+    
+
+@login_required
+def vote(request: HttpRequest, question_id: int):
+    # Get the question object or return 404 if not found
+    Question = get_object_or_404(question, pk=question_id)
+
     try:
+        # Get the selected choice from the POST data
         choice_selected = get_object_or_404(choice, pk=request.POST["choice"])
-    except(KeyError,choice.DoesNotExist):
-        return render(request , "polls/details.html",{"question" : Question, "error_message" : "You didn't selected a choice"},)
+    except (KeyError, choice.DoesNotExist):
+        # If no choice is selected, return an error message
+        return render(request, "polls/details.html", {
+            "question": Question,
+            "error_message": "You didn't select a choice.",
+        })
     else:
-        choice_selected.votes+=1
+        # Get the user's previous vote for this question (if any)
+        previous_vote = choice.objects.filter(question=Question, voters=request.user).first()
+
+        # If the user has already voted for a choice, decrement its vote count
+        if previous_vote:
+            previous_vote.votes -= 1
+            previous_vote.voters.remove(request.user)  # Remove the user from the voters list
+            previous_vote.save()
+
+        # Increment the vote count for the new choice
+        choice_selected.votes += 1
+        choice_selected.voters.add(request.user)  # Add the user to the voters list
         choice_selected.save()
+
+    # Redirect to the results page for the question
     return HttpResponseRedirect(reverse("polls:result", args=(Question.id,)))
 
 
 def about(request:HttpRequest):
     return render(request , "polls/about.html")
 
+@method_decorator(login_required, name='dispatch')
 class CreateView(View):
     def get(self, request: HttpRequest):
         return render(request, 'polls/create.html')
@@ -112,9 +151,12 @@ def contact(request):
             success_message = 'Thank you for your response!'
 
     return render(request, 'polls/contact.html', {'error_message': error_message, 'success_message': success_message})
-def search(request):
+
+
+def search(request:HttpRequest):
         query = request.GET.get('q')
         results = []
+        
         if query:
-            results = question.objects.filter(question_text__icontains=query)
+                results = question.objects.filter(question_text__icontains=query)
         return render(request, 'polls/search_results.html', {'results': results, 'query': query})
