@@ -1,0 +1,43 @@
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environment
+pollsEnv/
+
+# Ignore environment variables and secret files
+.env
+*.env
+
+# Ignore database files
+db.sqlite3
+*.sqlite3
+
+# Ignore Django migrations (optional, if you want to regenerate migrations)
+**/migrations/*  # Ignores all migrations, but keeps the folder
+!**/migrations/__init__.py  # Keep the __init__.py file
+
+# Ignore logs
+logs/
+*.log
+debug.log
+
+# Ignore media/uploads (if applicable)
+media/
+staticfiles/
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.iml
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+
+# Ignore pip dependency cache
+pip-log.txt
+pip-delete-this-directory.txt
