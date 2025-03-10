@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.db.models import F
 from .models import question,choice , ContactMessage
 from django.http import HttpResponse,HttpRequest,Http404,HttpResponseRedirect
 from django.template import loader
@@ -43,49 +44,40 @@ class DetailView(generic.DetailView):
         question = self.get_object()
         context['was_published_recently'] = question.was_published_recently()
         return context
-# class DetailView(generic.DetailView):
-#     model=question
-#     template_name="polls/details.html"
-#     def get_queryset(self):
-#           return question.objects.filter(publication_date__lte=timezone.now())
-
 class ResultView(generic.DetailView):
     model=question
     template_name="polls/results.html"
     
 
 @login_required
-def vote(request: HttpRequest, question_id: int):
-    # Get the question object or return 404 if not found
-    Question = get_object_or_404(question, pk=question_id)
+def vote(request, question_id):
+    
+    question_instance = get_object_or_404(question, pk=question_id)
 
     try:
-        # Get the selected choice from the POST data
-        choice_selected = get_object_or_404(choice, pk=request.POST["choice"])
+     
+        selected_choice = get_object_or_404(choice, pk=request.POST["choice"])
     except (KeyError, choice.DoesNotExist):
-        # If no choice is selected, return an error message
+        
         return render(request, "polls/details.html", {
-            "question": Question,
+            "question": question_instance,
             "error_message": "You didn't select a choice.",
         })
     else:
-        # Get the user's previous vote for this question (if any)
-        previous_vote = choice.objects.filter(question=Question, voters=request.user).first()
+        previous_votes = choice.objects.filter(question=question_instance, voters=request.user)
+        
+        for vote_instance in previous_votes:
+            if vote_instance.pk != selected_choice.pk:
+                vote_instance.votes = F('votes') - 1
+                vote_instance.voters.remove(request.user)
+                vote_instance.save()
+        
+        if not selected_choice.voters.filter(pk=request.user.pk).exists():
+            selected_choice.votes = F('votes') + 1
+            selected_choice.voters.add(request.user)
+            selected_choice.save()
 
-        # If the user has already voted for a choice, decrement its vote count
-        if previous_vote:
-            previous_vote.votes -= 1
-            previous_vote.voters.remove(request.user)  # Remove the user from the voters list
-            previous_vote.save()
-
-        # Increment the vote count for the new choice
-        choice_selected.votes += 1
-        choice_selected.voters.add(request.user)  # Add the user to the voters list
-        choice_selected.save()
-
-    # Redirect to the results page for the question
-    return HttpResponseRedirect(reverse("polls:result", args=(Question.id,)))
-
+    return HttpResponseRedirect(reverse("polls:result", args=(question_instance.id,)))
 
 def about(request:HttpRequest):
     return render(request , "polls/about.html")
